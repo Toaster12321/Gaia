@@ -26,9 +26,7 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        interactTextBox.SetActive(false);
-        interactionCrosshair.SetActive(false);
-        pauseMenu.SetActive(false);
+        HidePauseMenu();
     }
 
     void Update()
@@ -76,5 +74,13 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;//lock and hide cursor
         Cursor.visible = false;
+    }
+
+    public void HidePauseMenu()
+    {
+        interactTextBox.SetActive(false);
+        interactionCrosshair.SetActive(false);
+        pauseMenu.SetActive(false);
+        print("hiding Pause menu");
     }
 }

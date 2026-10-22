@@ -47,7 +47,6 @@ public class WeaponSwitcher : MonoBehaviour
 
     void Update()
     {
-        print(switching);
         if (switching) //prevent switching if already switching
             return;
 
