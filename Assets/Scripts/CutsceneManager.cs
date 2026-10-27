@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,6 +13,7 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private GameObject dialogueUI;
     [SerializeField] private TMP_Text characterNamePlate;
     [SerializeField] private TMP_Text dialogueText;
+    public static event Action cutsceneFinished;
 
     public bool cutsceneActive = false;
 
@@ -143,6 +145,7 @@ public class CutsceneManager : MonoBehaviour
         cutsceneActive = false;
         currentLines = null;
         dialogueUI.SetActive(false);
+        cutsceneFinished?.Invoke();
     }
 
     public void ShowNoteUI()

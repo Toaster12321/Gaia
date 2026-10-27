@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -40,7 +41,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private InputActionReference moveInput; //references for input system controls
     [SerializeField] private InputActionReference lookInput;
     [SerializeField] private InputActionReference weaponSwitchInput;
+    [SerializeField] private SkinnedMeshRenderer[] renderers;
     private InputAction sprintAction;
+
 
 
     void Awake()
@@ -167,6 +170,14 @@ public class FirstPersonController : MonoBehaviour
         currentInput = Vector2.zero;
         moveDirection.x = 0f;
         moveDirection.y = 0f;
+    }
+
+    public void HidePlayer(bool hidden)
+    {
+        foreach (SkinnedMeshRenderer r in renderers)
+        {
+            r.enabled = !hidden;
+        }
     }
 
     private void OnEnable() //enable controls

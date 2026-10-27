@@ -6,6 +6,8 @@ public class SpawnManager : MonoBehaviour
 {
     private Dictionary<string, Vector3> spawnLocations = new Dictionary <string, Vector3>();
 
+    const string MAIN_SCENE = "MainScene";
+
     private void Start()
     {
         spawnLocations.Add("MainScene", new Vector3(-0.37f, 2.701f, -17.49f));
@@ -26,6 +28,11 @@ public class SpawnManager : MonoBehaviour
         if (spawnLocations.TryGetValue(scene.name, out Vector3 spawnPosition))
         {
             FirstPersonController.instance.transform.position = spawnPosition;
+            if (scene.name == MAIN_SCENE)
+            {
+                FirstPersonController.instance.HidePlayer(true);
+            }
+
             Physics.SyncTransforms();
         }
     }
