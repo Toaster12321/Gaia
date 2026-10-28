@@ -21,7 +21,7 @@ public class CutsceneManager : MonoBehaviour
     [Header("Note UI Elements")]
     [SerializeField] private GameObject noteUI;
 
-    private float charsPerSecond = 30f;
+    private float charsPerSecond = 10f;
 
     private List<DialogueLines> currentLines;
     private int currentLineIndex;
@@ -69,16 +69,26 @@ public class CutsceneManager : MonoBehaviour
         }
     }
 
-    public void StartCutscene(List<DialogueLines> dialogueLines)
+    public void StartCutscene(List<DialogueLines> dialogueLines,float _timeDelay)
     {
         if (dialogueLines == null || dialogueLines.Count == 0)
             return;
 
-        PauseManager.instance.PauseDuringText();
         currentLines = dialogueLines;
         currentLineIndex = 0;
-        cutsceneActive = true;
+        dialogueUI.SetActive(false);
+        FirstPersonController.instance.canMove = false;
+        FirstPersonController.instance.StopWalkingSFX();
 
+        StartCoroutine(BeginCutscene(_timeDelay));
+    }
+
+    private IEnumerator BeginCutscene(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        PauseManager.instance.PauseDuringText();
+        cutsceneActive = true;
         dialogueUI.SetActive(true);
         ShowCurrentLine();
     }
@@ -146,6 +156,7 @@ public class CutsceneManager : MonoBehaviour
         currentLines = null;
         dialogueUI.SetActive(false);
         cutsceneFinished?.Invoke();
+        StopAllCoroutines();
     }
 
     public void ShowNoteUI()
@@ -161,4 +172,5 @@ public class CutsceneManager : MonoBehaviour
         showingNote = false;
         PauseManager.instance.UnpauseDuringText();
     }
+
 }

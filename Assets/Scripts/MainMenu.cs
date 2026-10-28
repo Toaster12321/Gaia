@@ -13,6 +13,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync(1);        
     }
 
+    public void LoadGame() //BUTTON EVENT
+    {
+        SaveManager.Load();
+    }
+
     public void QuitGame()
     {
         Application.Quit();

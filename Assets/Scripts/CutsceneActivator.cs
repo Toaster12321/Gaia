@@ -7,6 +7,7 @@ public class CutsceneActivator : MonoBehaviour
     [SerializeField] private List<DialogueLines> dialogueLines;
     [SerializeField] private CutsceneManager cutsceneManager;
     [SerializeField] private bool playOnlyOnce = true;
+    [SerializeField] private float timeDelay = 0f;
 
     [Header ("Camera Settings")]
     [SerializeField] private bool cameraSwitches = false;
@@ -40,7 +41,7 @@ public class CutsceneActivator : MonoBehaviour
         if (cutsceneManager != null )
         {
             hasPlayedOnce = true;
-            cutsceneManager.StartCutscene(dialogueLines);
+            cutsceneManager.StartCutscene(dialogueLines, timeDelay);
         }
     }
 

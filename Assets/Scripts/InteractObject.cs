@@ -216,7 +216,7 @@ public class InteractObject : MonoBehaviour
 
     public void StartDialogue()
     {
-        cutsceneManager.StartCutscene(dialogueLines);
+        cutsceneManager.StartCutscene(dialogueLines, 0);
     }
 
     public void ShowComputerScreen()

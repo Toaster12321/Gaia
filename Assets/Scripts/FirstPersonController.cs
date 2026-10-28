@@ -89,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
             walking.pitch = 1.6f; //speed up playback if running
             walkSpeed *= 2; //press shift to double move speed
             isDashing = true;
+            playerAnimator.speed = 1.5f;
         }
 
         if ((!sprintAction.IsPressed() || currentInput == Vector2.zero) && isDashing) 
@@ -97,6 +98,7 @@ public class FirstPersonController : MonoBehaviour
             dashTime = 0f; //reset dash time and move speed
             walkSpeed /= 2;
             isDashing = false;
+            playerAnimator.speed = 1f;
         }
         else if (dashTime >= dashDuration)
         {
@@ -107,6 +109,7 @@ public class FirstPersonController : MonoBehaviour
             walkSpeed /= 2;
             lastDashTime = Time.time; //store last dashed for 4s cooldown
             isDashing = false;
+            playerAnimator.speed = 1f;
         }
 
         float moveDirectionY = moveDirection.y;
@@ -152,7 +155,7 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
-    public void StopWalkingSFX()
+    public void StopWalkingSFX() //resets all walking + SFX to an idle state
     {
         if (walking != null)
         {
@@ -163,6 +166,7 @@ public class FirstPersonController : MonoBehaviour
         if (isDashing)
             walkSpeed /= 2f;
 
+        playerAnimator.SetBool("walking", false);
         isDashing = false;
         dashCoolingDown = false;
         dashTime = 0f;

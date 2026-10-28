@@ -22,13 +22,14 @@ public class WeaponSwitcher : MonoBehaviour
 
     private const int REVOVLER_ANIM_LAYER = 1;
     private const int KNIFE_ANIM_LAYER = 2;
+    private const int WEAPONLESS_ANIM_LAYER = 3;
 
 
     void Start()
     {
         weaponAnimator = GetComponent<Animator>();
-        weaponList = new List<ItemData>();
-        weaponObjects = new List<Transform>();
+        weaponList = new List<ItemData>(); //holds item data for each weapon
+        weaponObjects = new List<Transform>(); //holds each weapon's GameObject root
 
         for (int i = 0; i < transform.childCount; i++) //fill weapon animators array with each animator in child list
         {
@@ -41,6 +42,13 @@ public class WeaponSwitcher : MonoBehaviour
 
             weaponList.Add(inventoryItem.itemData); //add the item data of each item in weapon holder to the weapon list of item data
             weaponObjects.Add(weaponTransform);
+
+            if (!(PlayerOwnsWeaponData(inventoryItem.itemData))) //puts player in idle state animation if no weapons are owned
+            {
+                weaponAnimator.SetLayerWeight(REVOVLER_ANIM_LAYER, 0);
+                weaponAnimator.SetLayerWeight(KNIFE_ANIM_LAYER, 0);
+                weaponAnimator.SetLayerWeight(WEAPONLESS_ANIM_LAYER, 1);
+            }
         }
     }
 
@@ -98,6 +106,7 @@ public class WeaponSwitcher : MonoBehaviour
 
         weaponAnimator.SetBool("holster",true); //play the holster animation the held weapon
     }
+    
 
     private void SelectWeapon(int index)
     {
@@ -113,11 +122,13 @@ public class WeaponSwitcher : MonoBehaviour
         {
             weaponAnimator.SetLayerWeight(REVOVLER_ANIM_LAYER, 1);
             weaponAnimator.SetLayerWeight(KNIFE_ANIM_LAYER, 0);
+            weaponAnimator.SetLayerWeight(WEAPONLESS_ANIM_LAYER, 0);
         }
         else if (tag == "Knife")
         {
             weaponAnimator.SetLayerWeight(REVOVLER_ANIM_LAYER, 0);
             weaponAnimator.SetLayerWeight(KNIFE_ANIM_LAYER, 1);
+            weaponAnimator.SetLayerWeight(WEAPONLESS_ANIM_LAYER, 0);
         }
 
     }
@@ -145,6 +156,7 @@ public class WeaponSwitcher : MonoBehaviour
         var playerWeapons = InventoryManager.instance.selectedItemGrid.GetItemTypeInInventory(ItemData.ItemType.Weapon); //get list of weapons currently in inventory
         return playerWeapons.Contains(weaponData); 
     }
+
 
     private bool PlayerOwnsSelectedWeapon(int index) //return whether the player owns a weapon at this index 
     {

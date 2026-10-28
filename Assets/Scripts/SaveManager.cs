@@ -34,6 +34,7 @@ public class SaveManager
         if (_saveData.EnemyData == null)
             _saveData.EnemyData = new EnemySaveData();
 
+        //save scenes
         GameManager.Instance.FirstPersonController.Save(ref _saveData.PlayerData); //call save function from each class
         GameManager.Instance.InventoryManager.Save(ref _saveData.InventoryData);
         GameManager.Instance.EnemyManager.Save(ref _saveData.EnemyData);
@@ -58,5 +59,10 @@ public class SaveManager
     public void SaveGame()
     {
         Save();
+    }
+
+    public static bool HasSave()
+    {
+        return File.Exists(SaveFileName());
     }
 }
