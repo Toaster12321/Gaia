@@ -28,17 +28,18 @@ public class GameManager : MonoBehaviour
     public FirstPersonController FirstPersonController { get; set; }
     public InventoryManager InventoryManager { get; set; }
     public EnemyManager EnemyManager { get; set; }
-
+    public SpawnManager SpawnManager { get; set; }
 
     public void Awake()
     {
-        if (instance == null)
+        if (instance != null && instance != this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
             Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     
     public void SaveGame() //BUTTON EVENT
@@ -49,5 +50,11 @@ public class GameManager : MonoBehaviour
     public void LoadGame() //BUTTON EVENT
     {
         SaveManager.Load();
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 }

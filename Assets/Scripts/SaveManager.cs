@@ -11,6 +11,7 @@ public class SaveManager
         public PlayerSaveData PlayerData;
         public InventorySaveData InventoryData;
         public EnemySaveData EnemyData;
+        public SceneSaveData SceneData;
     }
 
     public static string SaveFileName()
@@ -38,6 +39,8 @@ public class SaveManager
         GameManager.Instance.FirstPersonController.Save(ref _saveData.PlayerData); //call save function from each class
         GameManager.Instance.InventoryManager.Save(ref _saveData.InventoryData);
         GameManager.Instance.EnemyManager.Save(ref _saveData.EnemyData);
+        Debug.Log(GameManager.Instance.SpawnManager);
+        GameManager.Instance.SpawnManager.Save(ref _saveData.SceneData);
     }
 
     public static void Load()
@@ -46,8 +49,14 @@ public class SaveManager
 
         _saveData = JsonUtility.FromJson<SaveData>(SaveContent); //translate _saveData back from JSON to other data
 
-        HandleLoadData();
+        WaitForSceneLoad();
     }
+
+    public static void WaitForSceneLoad()
+    {
+        GameManager.Instance.SpawnManager.Load(_saveData.SceneData);
+    }
+
 
     public static void HandleLoadData()
     {
