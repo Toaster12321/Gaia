@@ -66,6 +66,7 @@ public class EnemyStateMachine : StateManager<EnemyStateMachine.EEnemyState>
         {
             GameObject.Destroy(gameObject);
         }
+
     }
 
     public void TakeDamage(float amount)
@@ -97,6 +98,7 @@ public class EnemyStateMachine : StateManager<EnemyStateMachine.EEnemyState>
             _attackRange, _walkPointRange, _selfTransform, _isRotatingEnabled, _enemyStateMachine, _patrolStartingPosition, _patrolStartingPositionSet, _maxPatrolRadius, _homeRadius);
         InitializeStates();
     }
+
 
     private void InitializeStates()
     {

@@ -42,6 +42,7 @@ public class CutsceneActivator : MonoBehaviour
         {
             hasPlayedOnce = true;
             cutsceneManager.StartCutscene(dialogueLines, timeDelay);
+            EnemyManager.instance.PauseEnemies(true);
         }
     }
 
@@ -54,6 +55,7 @@ public class CutsceneActivator : MonoBehaviour
     private void OnCutsceneFinished()
     {
         SwitchCameras(false);
+        EnemyManager.instance.PauseEnemies(false);
     }
 
     private void HideObject()

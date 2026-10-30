@@ -1,11 +1,14 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyManager : MonoBehaviour
 {
     public List<string> killedEnemyList = new List<string>(); //stores which enemies have been killed in game
     public static EnemyManager instance;
+
+    public GameObject[] enemyList;
 
     private void Awake()
     {
@@ -13,6 +16,8 @@ public class EnemyManager : MonoBehaviour
 
         if (instance == null)
             instance = this;
+
+        enemyList = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
     public void Save(ref EnemySaveData data)
@@ -34,6 +39,15 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void PauseEnemies(bool paused)
+    {
+        print(enemyList);
+        foreach (GameObject enemy in enemyList)
+        {
+            if (enemy != null)
+                enemy.SetActive(!paused);
+        }
+    }
 }
 
 [System.Serializable] //class that stores killedEnemies list to be translated to JSON

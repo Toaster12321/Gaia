@@ -37,7 +37,7 @@ public class EnemyStateIdle : EnemyState
     public override void UpdateState()
     {
         if (Context.EnemyType == EnemyStateMachine.EnemyType.Scab || Context.EnemyType == EnemyStateMachine.EnemyType.MushroomSpider)
-            _idleTimer += Time.deltaTime; //start timer
+            _idleTimer += Time.deltaTime; //start timer 
     }
 
     public override EnemyStateMachine.EEnemyState GetNextState()
@@ -76,4 +76,5 @@ public class EnemyStateIdle : EnemyState
     {
 
     }
+
 }

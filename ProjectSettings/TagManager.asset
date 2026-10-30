@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Revolver
   - Knife
+  - Enemy
   layers:
   - Default
   - TransparentFX

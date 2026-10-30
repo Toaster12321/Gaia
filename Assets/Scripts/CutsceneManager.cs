@@ -14,6 +14,7 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private TMP_Text characterNamePlate;
     [SerializeField] private TMP_Text dialogueText;
     public static event Action cutsceneFinished;
+    public static CutsceneManager instance;
 
     public bool cutsceneActive = false;
 
@@ -31,6 +32,14 @@ public class CutsceneManager : MonoBehaviour
     private bool textActive = false;
     private bool showingNote = false;
     private string fullLineText;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
 
     private void Start()

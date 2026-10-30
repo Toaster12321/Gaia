@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,7 @@ public class WeaponSwitcher : MonoBehaviour
     private List<ItemData> weaponList;
     private List<Transform> weaponObjects;
     private bool switching = false;
+    private bool firstPickup = true;
 
     [Header("Revolver Variables")]
     [SerializeField] private Revolver revolver;
@@ -104,7 +106,15 @@ public class WeaponSwitcher : MonoBehaviour
         selectedWeaponIndex = fromWeaponIndex; //get the index of the current held weapon
         pendingWeaponIndex = toWeaponIndex; //hold the next index value in pending weapon
 
-        weaponAnimator.SetBool("holster",true); //play the holster animation the held weapon
+        if (weaponObjects[toWeaponIndex].gameObject.activeSelf == false && firstPickup) //allows any item in weaponList to be equipped first instead of just index 0 (revolver)
+        {
+            selectedWeaponIndex = toWeaponIndex;
+            firstPickup = false;
+            SelectWeapon(toWeaponIndex);
+            return;
+        }
+
+        weaponAnimator.SetBool("holster",true); //play the holster animation the held weapon (triggers weapon switch at end of anim)
     }
     
 
@@ -154,6 +164,7 @@ public class WeaponSwitcher : MonoBehaviour
     private bool PlayerOwnsWeaponData(ItemData weaponData)//return whether or not a weapon item is owned
     {
         var playerWeapons = InventoryManager.instance.selectedItemGrid.GetItemTypeInInventory(ItemData.ItemType.Weapon); //get list of weapons currently in inventory
+        print(playerWeapons.Contains(weaponData));
         return playerWeapons.Contains(weaponData); 
     }
 
@@ -161,7 +172,10 @@ public class WeaponSwitcher : MonoBehaviour
     private bool PlayerOwnsSelectedWeapon(int index) //return whether the player owns a weapon at this index 
     {
         if (index < 0 || index >= weaponList.Count)
+        {
+            print(weaponList.Count);
             return false;
+        }
 
         return PlayerOwnsWeaponData(weaponList[index]); 
     }
@@ -176,6 +190,7 @@ public class WeaponSwitcher : MonoBehaviour
 
         if (selectedWeaponIndex == index)
         {
+            print("selected index");
             SelectWeapon(index);
             return;
         }
